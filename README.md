@@ -1,6 +1,4 @@
-The what: This is a simple script to transfer my music library over to deezer
-
-The why: im ltoo lazy to do it by hand
+The what: This is a simple experiment of transfering my music library over to deezer.
 
 The how: use publicly available apis to:
 
