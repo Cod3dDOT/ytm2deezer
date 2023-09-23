@@ -1,0 +1,4 @@
+browser.json
+export.json
+.mypy_cache
+__pycache__
