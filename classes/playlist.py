@@ -1,4 +1,5 @@
 from classes import Item, Song
+from utils import assert_parameter
 
 
 class Playlist(Item):
@@ -17,6 +18,8 @@ class Playlist(Item):
 
     def add_song(self, song: Song, duplicate: bool = False) -> bool:
         """Adds a song to playlist"""
+        assert_parameter(song, Song, "song")
+
         if self._songs.get(song.id) is None:
             self._songs[song.id] = [song]
             return True

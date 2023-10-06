@@ -37,6 +37,10 @@ class SimilarSongs:
     def others(self):
         return self._others
 
+    @property
+    def song(self):
+        return self._song
+
 
 def have_similar_names(left: Song, right: Song) -> bool:
     """Returns true if songs have similar authors"""

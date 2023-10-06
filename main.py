@@ -1,30 +1,34 @@
-from api import YTMusicApi, DeezerApi, Mapper
+from api import YTMusicApi, DeezerApi, find_songs_async
 from utils import logger, filemanager
+from classes import MusicApi
 
 
 def main() -> None:
     """Main function"""
-
     yt_music_api = YTMusicApi("browser.json")
     deezer_api = DeezerApi()
+    convert_playlist("All Them Moods", yt_music_api, deezer_api)
 
-    playlists = yt_music_api.get_library_playlists()
 
-    chosen_playlist_name = "All"
-    chosen_playlist = next(
-        (p for p in playlists if p.name == chosen_playlist_name), None
-    )
+def convert_playlist(pl_name: str, from_api: MusicApi, to_api: MusicApi) -> None:
+    """Converts playlist from one platform to another"""
+    playlists = from_api.get_user_playlists()
+    chosen_playlist = next((p for p in playlists if p.name == pl_name), None)
+
     if chosen_playlist is None:
-        logger.log_error(f"Can't find playlist with name: {chosen_playlist_name}")
+        logger.log_error(f"Can't find playlist with name: {pl_name}")
         logger.log_error("Available playlists are: ")
         logger.log_error(logger.pretty_list(playlists))
         return
 
-    mapped = Mapper.map_song_ids_async(chosen_playlist.songs, deezer_api)
+    mapped = find_songs_async(chosen_playlist.songs[10:30], to_api)
 
     valid = len([x for x in mapped if len(mapped[x]) > 0])
     logger.log_success(f"Found {valid} of {len(mapped)}")
-    filemanager.create_json_file("export.json", mapped)
+    filemanager.create_json_file(
+        "export.json",
+        {og_id: [s.id for s in songs] for (og_id, songs) in mapped.items()},
+    )
 
 
 if __name__ == "__main__":

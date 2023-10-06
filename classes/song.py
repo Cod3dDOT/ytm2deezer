@@ -29,7 +29,7 @@ class Song(Item):
 
     @duration.setter
     def duration(self, value: int) -> None:
-        assert_parameter(value, int, "duration.value")
+        assert_parameter(value, int, "duration")
         self._duration = value
 
     @property
@@ -39,7 +39,7 @@ class Song(Item):
 
     @album.setter
     def album(self, value: str) -> None:
-        assert_parameter(value, str, "album.value")
+        assert_parameter(value, str, "album")
         self._album = value
 
     def pretty(self) -> str:

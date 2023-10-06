@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from .song import Song
+from .playlist import Playlist
 
 
 class MusicApi(ABC):
@@ -9,21 +10,19 @@ class MusicApi(ABC):
     @property
     def name(self) -> str:
         """Retunrs the name of the api"""
-        raise NotImplementedError("property 'name' is not implemented")
+        raise NotImplementedError("Property 'name' is not implemented")
 
     @abstractmethod
-    def search_by_attributes(
-        self,
-        name: str,
-        author: str | None = None,
-        year: int | None = None,
-        album: str | None = None,
-        duration: int | None = None,
-    ) -> list[Song]:
+    def search_song(self, song: Song) -> list[Song]:
         """Searches using songs name/author/other attributes"""
-        raise NotImplementedError("method 'search_by_attributes' is not implemented")
+        raise NotImplementedError("Method 'search_by_attributes' is not implemented")
 
     @abstractmethod
-    def find_by_id(self, song_id: str) -> Song | None:
+    def search_song_id(self, song_id: str) -> Song | None:
         """Finds a track using its id"""
-        raise NotImplementedError("method 'find_by_id' is not implemented")
+        raise NotImplementedError("Method 'search_song_id' is not implemented")
+
+    @abstractmethod
+    def get_user_playlists(self) -> list[Playlist]:
+        """Returns user playlists"""
+        raise NotImplementedError("Method 'get_user_playlists' is not implemented")

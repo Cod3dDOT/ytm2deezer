@@ -5,7 +5,7 @@ from utils import logger
 
 
 class YTMusicApiException(Exception):
-    """A simple yt music exception"""
+    """A simple YTMusic exception"""
 
 
 class YTMusicApiConverter:
@@ -79,7 +79,7 @@ class YTMusicApiConverter:
 
 
 class YTMusicApi(MusicApi):
-    """Wraps ytmusic api"""
+    """Wraps YTMusic api"""
 
     _client: YTMusic
 
@@ -91,8 +91,8 @@ class YTMusicApi(MusicApi):
     def name(self) -> str:
         return "YTMusic"
 
-    def get_library_playlists(self) -> list[Playlist]:
-        """Gtes user playlists (with songs)"""
+    def get_user_playlists(self) -> list[Playlist]:
+        """Gets user playlists (with songs)"""
         playlists = self.get_client().get_library_playlists()
 
         parsed: list[Playlist] = []
@@ -177,18 +177,11 @@ class YTMusicApi(MusicApi):
         """Returns ytmusic client"""
         return self._client
 
-    def search_by_attributes(
-        self,
-        name: str,
-        author: str | None = None,
-        year: int | None = None,
-        album: str | None = None,
-        duration: int | None = None,
-    ) -> list[Song]:
+    def search_song(self, song: Song) -> list[Song]:
         """Search for a song based on name"""
         songs: set[Song] = set()
 
-        result = self.get_client().search(name, scope="songs")
+        result = self.get_client().search(song.name, scope="songs")
         for entry in result:
             parsed = YTMusicApiConverter.song_from_json(entry)
             if parsed is not None:
@@ -200,6 +193,6 @@ class YTMusicApi(MusicApi):
 
         return list(songs)
 
-    def find_by_id(self, song_id: str) -> Song | None:
+    def search_song_id(self, song_id: str) -> Song | None:
         result = self.get_client().get_song(videoId=song_id)
         return YTMusicApiConverter.song_from_json(result)
