@@ -1,4 +1,5 @@
 browser.json
+oauth.json
 export.json
 .mypy_cache
 __pycache__

@@ -36,9 +36,9 @@ class DeezerApi(MusicApi):
 
     _client: deezer.Client
 
-    def __init__(self) -> None:
+    def __init__(self, access_token="") -> None:
         super().__init__()
-        self._client = deezer.Client()
+        self._client = deezer.Client(access_token=access_token)
 
     @property
     def name(self) -> str:
